@@ -1,0 +1,12 @@
+# IntelliJ project files and directories
+/.idea
+*.iml
+
+# NodeJS dependencies
+/node_modules
+
+# Test results file
+test-results.txt
+
+# NPM working files
+npm-debug.log
