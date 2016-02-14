@@ -1,50 +1,82 @@
 module.exports = function (grunt) {
 
-    // Project configuration.
+    var version = grunt.option('release-version') || '0.1.0';
+
     grunt.initConfig({
-            pkg: grunt.file.readJSON('package.json'),
-            // Configure a mochaTest task
-            mochaTest: {
-                test: {
-                    options: {
-                        reporter: 'spec',
-                        captureFile: 'test-results.txt', // Optionally capture the reporter output to a file
-                        quiet: false, // Optionally suppress output to standard out (defaults to false)
-                        clearRequireCache: false // Optionally clear the require cache before running tests (defaults
-                                                 // to false)
-                    },
-                    src: ['test/**/*.js']
-                }
-            },
-            jshint: {
+        pkg: grunt.file.readJSON('package.json'),
+        mochaTest: {
+            test: {
                 options: {
-                    //'node': true,
-                    'undef': true,
-                    'unused': true,
-                    'eqnull': true
+                    reporter: 'spec',
+                    captureFile: 'test-results.txt',
+                    quiet: false,
+                    clearRequireCache: false
                 },
-                build: {
-                    src: 'src/StringUtils.js'
-                }
+                src: ['test/**/*.js']
+            }
+        },
+        jshint: {
+            options: {
+                'node': true,
+                'undef': true,
+                'unused': true,
+                'eqnull': true
             },
-            uglify: {
-                options: {},
-                build: {
-                    src: 'src/StringUtils.js',
-                    dest: 'build/<%= pkg.name %>_<%= pkg.version %>/StringUtils.js'
-                }
+            build: {
+                src: 'src/**/*.js'
+            }
+        },
+        uglify: {
+            options: {
+                banner: '/*! <%= pkg.name %> - v' + version + ' - ' +
+                '<%= grunt.template.today("yyyy-mm-dd") %> */\n'
+            },
+            js: {
+                options: {
+                    beautify: {
+                        width: 80,
+                        beautify: true
+                    }
+                },
+                files: [{
+                    expand: true,
+                    cwd: 'src/',
+                    src: '**/*.js',
+                    dest: 'dist/'
+                }]
+            }
+        },
+        clean: {
+            dist: ['dist/']
+        },
+        copy: {
+            main: {
+                files: [
+                    {expand: true, src: ['LICENSE'], dest: 'dist/'}
+                ]
+            }
+        },
+        replace: {
+            versioning: {
+                src: ['README.md', 'package.json', 'CHANGELOG'],
+                dest: 'dist/',
+                replacements: [{
+                    from: '<<VERSION>>',
+                    to: version
+                }]
             }
         }
-    );
+    });
 
     grunt.loadNpmTasks('grunt-mocha-test');
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks('grunt-contrib-clean');
+    grunt.loadNpmTasks('grunt-contrib-copy');
+    grunt.loadNpmTasks('grunt-text-replace');
 
-    // Default task(s).
-    grunt.registerTask('default', ['mochaTest', 'jshint']);
-    grunt.registerTask('compile', ['mochaTest', 'jshint', 'uglify']);
     grunt.registerTask('test', ['mochaTest']);
+    grunt.registerTask('default', ['test', 'jshint']);
     grunt.registerTask('hint', ['jshint']);
-
+    grunt.registerTask('compile', ['clean', 'test', 'hint', 'uglify', 'copy', 'replace']);
 };
