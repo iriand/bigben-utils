@@ -10,3 +10,5 @@ test-results.txt
 
 # NPM working files
 npm-debug.log
+
+/dist
