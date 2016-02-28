@@ -9,16 +9,16 @@ function StringUtils() {
 }
 
 /**
- *
- * @param initialStr
- * @param endingStr
- * @returns {boolean}
+ * Check if string ends with other one
+ * @param initialStr string that has to be checked
+ * @param endingStr end string
+ * @returns {boolean} true if initialStr ends with endingStr
  */
 StringUtils.prototype.endsWith = function (initialStr, endingStr) {
-    if (initialStr == null) {
+    if (initialStr === null) {
         return false;
     }
-    if (endingStr == null) {
+    if (endingStr === null) {
         return false;
     }
     if (initialStr === '' && endingStr === '') {

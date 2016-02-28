@@ -1,6 +1,6 @@
 {
   "name": "bigben-utils",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "private": false,
   "repository": {
     "type": "git",
@@ -17,7 +17,7 @@
   "bugs": {
     "url": "https://github.com/iriand/bigben-utils/issues"
   },
-  "scripts":{
+  "scripts": {
     "test": "grunt test"
   },
   "dependencies": {},
@@ -29,6 +29,13 @@
     "grunt-contrib-uglify": "^0.11.1",
     "grunt-mocha-test": "^0.12.7",
     "grunt-text-replace": "^0.4.0",
-    "mocha": "^2.4.5"
+    "gulp": "^3.9.1",
+    "gulp-jsdoc": "^0.1.5",
+    "gulp-jshint": "^2.0.0",
+    "gulp-mocha": "^2.2.0",
+    "jshint": "^2.9.1",
+    "jshint-stylish": "^2.1.0",
+    "mocha": "^2.4.5",
+    "mocha-lcov-reporter": "^1.2.0"
   }
 }
